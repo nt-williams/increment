@@ -39,6 +39,10 @@ nuisance <- function(weights, v, preds, tau) {
   return(out)
 }
 
-compute_psi <- function(rho) {
-  mean(rho)
+compute_psi <- function(eif) {
+  list(
+    psi = mean(eif),
+    se = sqrt(var(eif)) / sqrt(length(eif)),
+    eif = eif
+  )
 }

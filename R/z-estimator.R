@@ -20,15 +20,17 @@ increment <- function(data, trt, outcome, baseline, time_vary, delta, k = Inf,
     folds = folds
   )
 
+  pb <- progressr::progressor(meta$tau*folds*2)
+
   # propensity --------------------------------------------------------------
 
-  prop <- cf_r(meta$data, trt, meta$tau, meta$node_list$trt, learners_trt, folds)
+  prop <- cf_r(meta$data, trt, meta$tau, meta$node_list$trt, learners_trt, folds, pb)
   wgts <- construct_weights(data, trt, delta, recombine_prop(prop, meta$folds), meta$tau)
 
   # outcome regression ------------------------------------------------------
 
   ocr <- cf_m(meta$data, delta, trt, outcome, meta$node_list$outcome, meta$tau,
-              meta$tau, prop, meta$outcome_type, learners_outcome, folds)
+              meta$tau, prop, meta$outcome_type, learners_outcome, folds, pb)
 
   # estimator ---------------------------------------------------------------
 

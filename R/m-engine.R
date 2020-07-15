@@ -1,6 +1,6 @@
 
 estimate_m <- function(train, valid, delta, trt, outcome, node_list, max,
-                       tau, prop, hold, outcome_type, learners = NULL) {
+                       tau, prop, hold, outcome_type, learners = NULL, progress) {
 
   if (tau > 0) {
 
@@ -37,6 +37,9 @@ estimate_m <- function(train, valid, delta, trt, outcome, node_list, max,
         predict_sl3(fit, voff_task, envir = environment()),
         prop$valid[, tau]
       )
+
+    # update progress bar
+    progress()
 
     # recursion
     estimate_m(train, valid, delta, trt, pseudo, node_list, max,

@@ -14,13 +14,14 @@ get_folded_data <- function(data, folds) {
   return(out)
 }
 
-cf_r <- function(data, trt, tau, node_list, learners, folds) {
+cf_r <- function(data, trt, tau, node_list, learners, folds, progress) {
   fopts <- options("increment.engine")
   out <- list()
   for (i in 1:folds) {
     out[[i]] <- future::future({
       options(fopts)
-      estimate_r(data[[i]]$train, data[[i]]$valid, trt, tau, node_list, learners)
+      estimate_r(data[[i]]$train, data[[i]]$valid, trt, tau,
+                 node_list, learners, progress)
     })
   }
   out <- future::values(out)
@@ -28,7 +29,7 @@ cf_r <- function(data, trt, tau, node_list, learners, folds) {
 }
 
 cf_m <- function(data, delta, trt, outcome, node_list, max,
-                 tau, prop, outcome_type, learners, folds) {
+                 tau, prop, outcome_type, learners, folds, progress) {
 
   fopts <- options("increment.engine")
   out <- list()
@@ -37,7 +38,7 @@ cf_m <- function(data, delta, trt, outcome, node_list, max,
       options(fopts)
       estimate_m(data[[i]]$train, data[[i]]$valid, delta, trt,
                  outcome, node_list, max, tau, prop[[i]], NULL,
-                 outcome_type, learners)
+                 outcome_type, learners, progress)
     })
   }
   out <- future::values(out)

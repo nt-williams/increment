@@ -1,5 +1,5 @@
 
-estimate_r <- function(train, valid, trt, tau, node_list, learners = NULL) {
+estimate_r <- function(train, valid, trt, tau, node_list, learners = NULL, progress) {
 
   # global setup
   tpred <- matrix(nrow = nrow(train), ncol = tau)
@@ -17,6 +17,9 @@ estimate_r <- function(train, valid, trt, tau, node_list, learners = NULL) {
     # propensities training
     tpred[, t] <- predict_sl3(fit, fit_task, envir = environment())
     vpred[, t] <- predict_sl3(fit, prd_task, envir = environment())
+
+    # update progress bar
+    progress()
   }
 
   out <- list(train = tpred,
