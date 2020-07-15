@@ -20,3 +20,15 @@ turn_off <- function(data, trt) {
 determine_tau <- function(trt) {
   length(trt)
 }
+
+recombine_prop <- function(prop, folds) {
+  Reduce(rbind, lapply(prop, function(x) x[["valid"]]))[order(reorder_validation(folds)), , drop = FALSE]
+}
+
+recombine_pseudo <- function(pseudo, folds) {
+  Reduce(rbind, pseudo)[order(reorder_validation(folds)), , drop = FALSE]
+}
+
+reorder_validation <- function(folds) {
+  Reduce(c, lapply(folds, function(x) x[["validation_set"]]))
+}

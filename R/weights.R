@@ -1,9 +1,8 @@
 
-construct_weights <- function(data, trt, delta, propensity, tau) {
+construct_weights <- function(data, trt, delta, prop, tau) {
 
   n    <- nrow(data)
   w    <- matrix(nrow = n, ncol = tau)
-  prop <- propensity$propensity
 
   for (t in 1:tau) {
     # current time point

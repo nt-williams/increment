@@ -1,21 +1,21 @@
 
-compute_rho <- function(data, trt, outcome, delta, propensity,
+compute_rho <- function(data, trt, outcome, delta, prop,
                         weights, preds, tau) {
   weights[, tau]*data[[outcome]] +
     nuisance(weights,
-             compute_v(data, trt, propensity$propensity, delta, tau),
-             preds$preds,
+             compute_v(data, trt, prop, delta, tau),
+             preds,
              tau)[, 1]
 }
 
-compute_v <- function(data, trt, propensity, delta, tau) {
+compute_v <- function(data, trt, prop, delta, tau) {
   # setup
   out <- matrix(nrow = nrow(data), ncol = tau)
 
   for (t in 1:tau) {
     # current time point
     current_trt  <- data[[trt[t]]]
-    current_prop <- propensity[, t]
+    current_prop <- prop[, t]
 
     # calculation
     num      <- current_trt*(1 - current_prop) - (1 - current_trt)*delta*current_prop

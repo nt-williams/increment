@@ -22,24 +22,21 @@ increment <- function(data, trt, outcome, baseline, time_vary, delta, k = Inf,
 
   # propensity --------------------------------------------------------------
 
-  prop <- estimate_r(meta$data, meta$trt, meta$tau, meta$node_list$trt, learners_trt)
-
-  wgts <- lapply(delta, function(x) {
-    construct_weights(meta$data, meta$trt, x, prop, meta$tau)
-  })
+  prop <- cf_r(meta$data, trt, meta$tau, meta$node_list$trt, learners_trt, folds)
+  wgts <- construct_weights(data, trt, delta, recombine_prop(prop, meta$folds), meta$tau)
 
   # outcome regression ------------------------------------------------------
 
-  ocr <- lapply(delta, function(x) {
-    estimate_m(meta$data, x, meta$data_on, meta$data_off, outcome,
-               meta$node_list$outcome, meta$tau, meta$tau, prop,
-               meta$outcome_type, learners_outcome)
-  })
+  ocr <- cf_m(meta$data, delta, trt, outcome, meta$node_list$outcome, meta$tau,
+              meta$tau, prop, meta$outcome_type, learners_outcome, folds)
 
   # estimator ---------------------------------------------------------------
 
-  mapply(function(x, y, z) {
-    compute_psi(compute_rho(meta$data, meta$trt, outcome, x, prop, y, z, meta$tau))
-  }, x = delta, y = wgts, z = ocr, SIMPLIFY = FALSE)
+  compute_psi(
+    compute_rho(
+      data, trt, outcome, delta, recombine_prop(prop, meta$folds),
+      wgts, recombine_pseudo(ocr, meta$folds), meta$tau
+    )
+  )
 
 }
