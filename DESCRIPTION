@@ -1,11 +1,19 @@
 Package: increment
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Title: Causal Effects Based on Incremental Propensity Score Interventions
+Version: 0.1.0.9000
+Author: person(given = "Nicholas",
+             family = "Williams",
+             role = c("aut", "cre", "cph"),
+             email = "niw4001@med.cornell.edu", 
+             comment = c(ORCID = "0000-0002-1378-4831")
+Description: Implementation of...
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Imports: 
+    cli,
+    progressr,
+    origami,
+    future
+RoxygenNote: 7.1.0

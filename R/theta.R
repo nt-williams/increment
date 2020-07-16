@@ -39,10 +39,17 @@ nuisance <- function(weights, v, preds, tau) {
   return(out)
 }
 
-compute_psi <- function(eif) {
-  list(
-    psi = mean(eif),
-    se = sqrt(var(eif)) / sqrt(length(eif)),
-    eif = eif
+compute_psi <- function(x) {
+  out <- list(
+    estimates = data.frame(
+      increment = x$delta,
+      estimate = mean(x$eif),
+      std.error = sqrt(var(x$eif)) / sqrt(length(x$eif)),
+      conf.low = mean(x$eif) - 1.96*sqrt(var(x$eif)) / sqrt(length(x$eif)),
+      conf.high = mean(x$eif) + 1.96*sqrt(var(x$eif)) / sqrt(length(x$eif))
+    ),
+    eif = x$eif - mean(x$eif)
   )
+  class(out) <- "increment"
+  out
 }

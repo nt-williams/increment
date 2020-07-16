@@ -35,10 +35,12 @@ increment <- function(data, trt, outcome, baseline, time_vary, delta, k = Inf,
   # estimator ---------------------------------------------------------------
 
   compute_psi(
-    compute_rho(
-      data, trt, outcome, delta, recombine_prop(prop, meta$folds),
-      wgts, recombine_pseudo(ocr, meta$folds), meta$tau
+    list(
+      delta = delta,
+      eif = compute_rho(
+        data, trt, outcome, delta, recombine_prop(prop, meta$folds),
+        wgts, recombine_pseudo(ocr, meta$folds), meta$tau
+      )
     )
   )
-
 }
