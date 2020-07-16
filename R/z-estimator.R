@@ -1,5 +1,41 @@
 
-increment <- function(data, trt, outcome, baseline, time_vary, delta, k = Inf,
+#' Incremental Propensity Score Z-Estimator
+#'
+#' @param data A data frame in wide format containing all necessary variables
+#'  for the estimation problem.
+#' @param trt A vector containing the column names of treatment variables ordered by time.
+#' @param outcome The column name of the outcome variable.
+#' @param baseline An optional vector of columns names of baseline covariates to be
+#'  included for adjustment at every timepoint.
+#' @param time_vary A list the same length as the number of time points of observation with
+#'  the column names for new time-varying covariates introduced at each time point. The list
+#'  should be ordered following the time ordering of the model.
+#' @param delta A sequence of increment values for the propensity.
+#' @param k An integer specifying how previous time points should be
+#'  used for estimation at the given time point. Default is \code{Inf},
+#'  all time points.
+#' @param outcome_type Outcome variable type (i.e., continuous, binomial).
+#' @param id An optional column name containing cluster level identifiers.
+#' @param learners_outcome An optional \code{sl3} learner stack for estimation of the outcome
+#'  regression. If not specified, will default to using a generalized linear model.
+#' @param learners_trt An optional \code{sl3} learner stack for estimation of the exposure
+#'  mechanism. If not specified, will default to using a generalized linear model.
+#' @param folds The number of folds to be used for cross-fitting. Minimum allowable number
+#' is two folds.
+#'
+#' @return A list of class \code{increment} containing the following components:
+#'
+#' \item{estimates}{A data.frame with the same number of rows as \code{delta} containing intervention estimates.}
+#' \item{eif}{A list the same length as delta containing observation values of the influence function.}
+#' @export
+#'
+#' @references Kennedy EH. Nonparametric causal effects based on incremental
+#' propensity score interventions.
+#' \href{https://arxiv.org/abs/1704.00211}{arxiv:1704.00211}
+#'
+#' @examples
+#' # TO DO
+increment <- function(data, trt, outcome, baseline, time_vary = NULL, delta, k = Inf,
                       outcome_type = c("binomial", "continuous"), id = NULL,
                       learners_outcome = NULL, learners_trt = NULL, folds = 10) {
 

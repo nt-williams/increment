@@ -21,7 +21,7 @@ initiate_ensemble <- function(outcome_type, learners = NULL) {
 # general initiator of an sl3 task
 initiate_sl3_task <- function(data, Y, X, outcome_type, id = NULL, drop = FALSE) {
 
-  if (getOption("lmtp.engine") == "sl3") {
+  if (getOption("increment.engine") == "sl3") {
     # general task
     task <-
       sl3::sl3_Task$new(

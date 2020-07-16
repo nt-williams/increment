@@ -29,6 +29,42 @@ You can install increment from [GitHub](https://github.com/) with:
 devtools::install_github("nt-williams/increment")
 ```
 
+## Example 
+
+```{r, eval = FALSE}
+n <- 250
+W <- matrix(rnorm(n*3), ncol=3)
+A <- rbinom(n,1, 1/(1+exp(-(.2*W[,1] - .1*W[,2] + .4*W[,3]))))
+Y <- A + 2*W[,1] + W[,3] + W[,2]^2 + rnorm(n)
+ex <- data.frame(W, A, Y)
+
+# sl3 learner stack
+library(sl3)
+lrnrs <- sl3::make_learner_stack(Lrnr_glm_fast, 
+                                 Lrnr_ranger, 
+                                 Lrnr_xgboost)
+
+# increment function
+increment(ex, "A", "Y", c("X1", "X2", "X3"), delta = seq(0.1, 5, length.out = 10), 
+          outcome_type = "continuous", learners_outcome = lrnrs, learners_trt = lrnrs)
+#> Incremental Z estimator
+#> 
+#>    increment  estimate std.error  conf.low conf.high
+#> 1  0.1000000 0.9183776 0.3649177 0.2031389  1.633616
+#> 2  0.6444444 1.2064158 0.1919722 0.8301502  1.582681
+#> 3  1.1888889 1.3609284 0.1873993 0.9936257  1.728231
+#> 4  1.7333333 1.4608922 0.2099085 1.0494716  1.872313
+#> 5  2.2777778 1.5309389 0.2321637 1.0758981  1.985980
+#> 6  2.8222222 1.5820198 0.2504068 1.0912225  2.072817
+#> 7  3.3666667 1.6236070 0.2654183 1.1033871  2.143827
+#> 8  3.9111111 1.6508011 0.2773495 1.1071960  2.194406
+#> 9  4.4555556 1.6756341 0.2877440 1.1116559  2.239612
+#> 10 5.0000000 1.7007632 0.2959063 1.1207869  2.280740
+#> 
+#> Reference
+#> Nonparametric Causal Effects Based on Incremental Propensity Score Interventions (Kennedy, 2019)
+```
+
 ## References
 
 Edward H. Kennedy (2019) Nonparametric Causal Effects Based on Incremental Propensity Score Interventions, Journal of the American Statistical Association, 114:526, 645-656, DOI: 10.1080/01621459.2017.1422737
