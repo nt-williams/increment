@@ -2,11 +2,11 @@ Package: increment
 Type: Package
 Title: Causal Effects Based on Incremental Propensity Score Interventions
 Version: 0.1.0.9000
-Author: person(given = "Nicholas",
+Authors@R: person(given = "Nicholas",
              family = "Williams",
              role = c("aut", "cre", "cph"),
              email = "niw4001@med.cornell.edu", 
-             comment = c(ORCID = "0000-0002-1378-4831")
+             comment = c(ORCID = "0000-0002-1378-4831"))
 Description: Implementation of...
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -15,5 +15,8 @@ Imports:
     cli,
     progressr,
     origami,
-    future
+    future,
+    slider
 RoxygenNote: 7.1.0
+Enhances:
+    sl3 (>= 1.3.7)

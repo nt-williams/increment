@@ -1,6 +1,6 @@
 
 #' @export
-print.increment <- function(x) {
+print.increment <- function(x, ...) {
   cat("\n")
   cli::cli_text("{.strong Incremental Z estimator}")
   cat("\n")
