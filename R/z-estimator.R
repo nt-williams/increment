@@ -20,7 +20,7 @@ increment <- function(data, trt, outcome, baseline, time_vary, delta, k = Inf,
     folds = folds
   )
 
-  pb <- progressr::progressor(meta$tau*folds*2)
+  pb <- progressr::progressor(meta$tau*folds*length(delta) + meta$tau*folds)
 
   # propensity --------------------------------------------------------------
 
@@ -29,12 +29,12 @@ increment <- function(data, trt, outcome, baseline, time_vary, delta, k = Inf,
 
   # outcome regression ------------------------------------------------------
 
-  ocr <- cf_m(meta$data, delta, trt, outcome, meta$node_list$outcome, meta$tau,
-              meta$tau, prop, meta$outcome_type, learners_outcome, folds, pb)
+  ocr <- revert_list(cf_m(meta$data, delta, trt, outcome, meta$node_list$outcome, meta$tau,
+                          meta$tau, prop, meta$outcome_type, learners_outcome, folds, pb))
 
   # estimator ---------------------------------------------------------------
 
-  compute_psi(
+  out <- compute_psi(
     list(
       delta = delta,
       eif = compute_rho(
@@ -43,4 +43,6 @@ increment <- function(data, trt, outcome, baseline, time_vary, delta, k = Inf,
       )
     )
   )
+
+  out
 }

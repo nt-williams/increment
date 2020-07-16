@@ -1,11 +1,14 @@
 
 compute_rho <- function(data, trt, outcome, delta, prop,
                         weights, preds, tau) {
-  weights[, tau]*data[[outcome]] +
-    nuisance(weights,
-             compute_v(data, trt, prop, delta, tau),
-             preds,
-             tau)[, 1]
+  mapply(function(w, d, p) {
+    w[, tau]*data[[outcome]] +
+      nuisance(w,
+               compute_v(data, trt, prop, d, tau),
+               p,
+               tau)[, 1]
+  }, w = weights, d = delta, p = preds,
+  SIMPLIFY = FALSE)
 }
 
 compute_v <- function(data, trt, prop, delta, tau) {
@@ -43,12 +46,12 @@ compute_psi <- function(x) {
   out <- list(
     estimates = data.frame(
       increment = x$delta,
-      estimate = mean(x$eif),
-      std.error = sqrt(var(x$eif)) / sqrt(length(x$eif)),
-      conf.low = mean(x$eif) - 1.96*sqrt(var(x$eif)) / sqrt(length(x$eif)),
-      conf.high = mean(x$eif) + 1.96*sqrt(var(x$eif)) / sqrt(length(x$eif))
+      estimate = vapply(x$eif, function(e) mean(e), FUN.VALUE = 1),
+      std.error = vapply(x$eif, function(e) sqrt(var(e)) / sqrt(length(e)), FUN.VALUE = 1),
+      conf.low = vapply(x$eif, function(e) mean(e) - 1.96*sqrt(var(e)) / sqrt(length(e)), FUN.VALUE = 1),
+      conf.high = vapply(x$eif, function(e) mean(e) + 1.96*sqrt(var(e)) / sqrt(length(e)), FUN.VALUE = 1)
     ),
-    eif = x$eif - mean(x$eif)
+    eif = lapply(x$eif, function(e) e - mean(e))
   )
   class(out) <- "increment"
   out

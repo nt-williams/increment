@@ -26,9 +26,15 @@ recombine_prop <- function(prop, folds) {
 }
 
 recombine_pseudo <- function(pseudo, folds) {
-  Reduce(rbind, pseudo)[order(reorder_validation(folds)), , drop = FALSE]
+  lapply(pseudo, function(p) {
+    Reduce(rbind, p)[order(reorder_validation(folds)), , drop = FALSE]
+  })
 }
 
 reorder_validation <- function(folds) {
   Reduce(c, lapply(folds, function(x) x[["validation_set"]]))
+}
+
+revert_list <- function(x) {
+  apply(do.call(rbind, lapply(x, `[`)), 2, as.list)
 }

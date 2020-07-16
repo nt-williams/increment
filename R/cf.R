@@ -36,9 +36,11 @@ cf_m <- function(data, delta, trt, outcome, node_list, max,
   for (i in 1:folds) {
     out[[i]] <- future::future({
       options(fopts)
-      estimate_m(data[[i]]$train, data[[i]]$valid, delta, trt,
-                 outcome, node_list, max, tau, prop[[i]], NULL,
-                 outcome_type, learners, progress)
+      lapply(delta, function(d) {
+        estimate_m(data[[i]]$train, data[[i]]$valid, d, trt,
+                   outcome, node_list, max, tau, prop[[i]], NULL,
+                   outcome_type, learners, progress)
+      })
     })
   }
   out <- future::values(out)
