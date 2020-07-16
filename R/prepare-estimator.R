@@ -18,11 +18,11 @@ Meta <- R6::R6Class(
       tau <- determine_tau(trt)
 
       # initial checks
-      # check_for_variables(data, trt, outcome, baseline, time_vary)
+      check_for_variables(data, trt, outcome, baseline, time_vary)
       # check_missing_data(data, trt, outcome, time_vary, baseline)
-      # check_folds(folds)
-      # check_time_vary(time_vary)
-      # check_estimation_engine(learners_trt, learners_outcome)
+      check_folds(folds)
+      check_time_vary(time_vary)
+      check_estimation_engine(learners_trt, learners_outcome)
 
       # general setup
       self$n            <- nrow(data)

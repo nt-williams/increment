@@ -38,3 +38,9 @@ reorder_validation <- function(folds) {
 revert_list <- function(x) {
   apply(do.call(rbind, lapply(x, `[`)), 2, as.list)
 }
+
+set_increment_options <- function(option, val) {
+  switch (option,
+          "engine" = options(increment.engine = val)
+  )
+}

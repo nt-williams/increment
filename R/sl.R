@@ -2,7 +2,7 @@
 # initiates an sl3 task and corresponding learner stack
 initiate_ensemble <- function(outcome_type, learners = NULL) {
 
-  if (getOption("lmtp.engine") == "sl3") {
+  if (getOption("increment.engine") == "sl3") {
 
     # building learner stack
     out <- sl3::make_learner(sl3::Lrnr_sl,
@@ -53,7 +53,7 @@ run_ensemble <- function(ensemble, task, envir) {
 }
 
 predict_sl3 <- function(object, task, envir) {
-  if (getOption("lmtp.engine") == "sl3") {
+  if (getOption("increment.engine") == "sl3") {
     return(object$predict(task))
   } else {
     call_data <- eval(substitute(task$data), envir = envir)
