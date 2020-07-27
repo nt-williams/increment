@@ -13,9 +13,34 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 > Non-Parametric Causal Effects Based on Incremental Propensity Score
 > Interventions
 
+## Scope
+
+An implementation of the incremental propensity score intervention
+Z-estimator described in [Kennedy
+(2019)](https://doi.org/10.1080/01621459.2017.1422737). Nuisance
+parameters are estimated using the Super Learner from the
+[`sl3`](https://github.com/tlverse/sl3) package and sample splitting is
+used. The UI is implemented in the same manner as the
+[`lmtp`](https://github.com/nt-williams/lmtp) package and provides a
+compliment to the main objective of
+[`lmtp`](https://github.com/nt-williams/lmtp) for when
+treatment/exposure is binary.
+
+### To do
+
+  - Extend ability to right-censored data and time-varying exposure as
+    described in [Kim et al. (2019)](https://arxiv.org/abs/1907.04004)
+  - Implement hypothesis testing
+  - Return super learner weights
+  - Provide plotting function
+  - Refine returned output
+
 ## Installation
 
-You can install increment from [GitHub](https://github.com/) with:
+*Note that `increment` is under active development.*
+
+You can install the development version of `increment` from
+[GitHub](https://github.com/) with:
 
 ``` r
 devtools::install_github("nt-williams/increment")
@@ -56,6 +81,15 @@ increment(ex, "A", "Y", c("X1", "X2", "X3"), delta = seq(0.1, 5, length.out = 10
 #> Reference
 #> Nonparametric Causal Effects Based on Incremental Propensity Score Interventions (Kennedy, 2019)
 ```
+
+## Contributing
+
+Contributions are not only welcome but encouraged.
+
+Please note that the increment project is released with a [Contributor
+Code of
+Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
+By contributing to this project, you agree to abide by its terms.
 
 ## References
 

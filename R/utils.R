@@ -44,3 +44,26 @@ set_increment_options <- function(option, val) {
           "engine" = options(increment.engine = val)
   )
 }
+
+create_censoring_indicators <- function(data, cens, tau) {
+
+  # when no censoring return TRUE for all obs
+  if (is.null(cens)) {
+    i <- rep(TRUE, nrow(data))
+    j <- rep(TRUE, nrow(data))
+    out <- list(i = i, j = j)
+    return(out)
+  }
+
+  # other wise find censored observations
+  i <- data[[cens[tau]]] == 1
+
+  if (tau > 1) {
+    j <- data[[cens[tau - 1]]] == 1
+  } else {
+    j <- rep(TRUE, nrow(data))
+  }
+
+  out <- list(i = i, j = j)
+  return(out)
+}

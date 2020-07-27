@@ -9,7 +9,7 @@ increment(
   trt,
   outcome,
   baseline,
-  time_vary,
+  time_vary = NULL,
   delta,
   k = Inf,
   outcome_type = c("binomial", "continuous"),
