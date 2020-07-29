@@ -27,6 +27,7 @@
 #'
 #' \item{estimates}{A data.frame with the same number of rows as \code{delta} containing intervention estimates.}
 #' \item{eif}{A list the same length as delta containing observation values of the influence function.}
+#' \item{mult_cv}{Multiplier bootstrap critical value.}
 #' @export
 #'
 #' @references Kennedy EH. Nonparametric causal effects based on incremental
@@ -72,6 +73,7 @@ increment <- function(data, trt, outcome, baseline, time_vary = NULL, delta, k =
 
   out <- compute_psi(
     list(
+      n = nrow(data),
       delta = delta,
       eif = compute_rho(
         data, trt, outcome, delta, recombine_prop(prop, meta$folds),

@@ -1,12 +1,11 @@
 
 #' @export
 print.increment <- function(x, ...) {
+  cli::cli_text("{.strong Incremental propensity score intevention Z-estimator}")
   cat("\n")
-  cli::cli_text("{.strong Incremental Z estimator}")
+  cat("           Confidence level: 95%\n")
+  cat("     Multiplier Bootstrap C:", round(x$mult_cv, 2), "\n")
+  cat("First 6 increment estimates:\n")
   cat("\n")
-  print(x$estimates)
-  cat("\n")
-  cli::cli_text("{.strong Reference}")
-  cli::cli_text("Nonparametric Causal Effects Based on Incremental Propensity Score Interventions (Kennedy, 2019)")
-  cat("\n")
+  print(head(round(x$estimates, 2)))
 }

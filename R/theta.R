@@ -43,16 +43,21 @@ nuisance <- function(weights, v, preds, tau) {
 }
 
 compute_psi <- function(x) {
+  mbs_cv <- compute_multboot(x$eif, x$n, 1e4)
   out <- list(
     estimates = data.frame(
       increment = x$delta,
       estimate = vapply(x$eif, function(e) mean(e), FUN.VALUE = 1),
       std.error = vapply(x$eif, function(e) sqrt(var(e)) / sqrt(length(e)), FUN.VALUE = 1),
       conf.low = vapply(x$eif, function(e) mean(e) - 1.96*sqrt(var(e)) / sqrt(length(e)), FUN.VALUE = 1),
-      conf.high = vapply(x$eif, function(e) mean(e) + 1.96*sqrt(var(e)) / sqrt(length(e)), FUN.VALUE = 1)
+      conf.high = vapply(x$eif, function(e) mean(e) + 1.96*sqrt(var(e)) / sqrt(length(e)), FUN.VALUE = 1),
+      mult.conf.low = vapply(x$eif, function(e) mean(e) - mbs_cv*sqrt(var(e)) / sqrt(length(e)), FUN.VALUE = 1),
+      mult.conf.high = vapply(x$eif, function(e) mean(e) + mbs_cv*sqrt(var(e)) / sqrt(length(e)), FUN.VALUE = 1)
     ),
-    eif = lapply(x$eif, function(e) e - mean(e))
+    eif = lapply(x$eif, function(e) e - mean(e)),
+    mult_cv = mbs_cv
   )
   class(out) <- "increment"
+  class(out$estimates) <- c("tbl_df", "tbl", "data.frame")
   out
 }

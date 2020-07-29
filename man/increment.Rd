@@ -58,6 +58,7 @@ A list of class \code{increment} containing the following components:
 
 \item{estimates}{A data.frame with the same number of rows as \code{delta} containing intervention estimates.}
 \item{eif}{A list the same length as delta containing observation values of the influence function.}
+\item{mult_cv}{Multiplier bootstrap critical value.}
 }
 \description{
 Incremental Propensity Score Z-Estimator
