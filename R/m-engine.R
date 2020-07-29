@@ -43,7 +43,7 @@ estimate_m <- function(train, valid, delta, trt, outcome, node_list, max,
 
     # recursion
     estimate_m(train, valid, delta, trt, pseudo, node_list, max,
-               tau - 1, prop, hold, "continuous", learners)
+               tau - 1, prop, hold, "continuous", learners, progress)
   } else {
     return(hold)
   }

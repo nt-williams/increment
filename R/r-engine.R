@@ -7,7 +7,7 @@ estimate_r <- function(train, valid, trt, tau, node_list, learners = NULL, progr
 
   for (t in 1:tau) {
     # create sl3 tasks
-    fit_task <- initiate_sl3_task(train, trt, node_list[[t]], "binomial", NULL)
+    fit_task <- initiate_sl3_task(train, trt[t], node_list[[t]], "binomial", NULL)
     prd_task <- initiate_sl3_task(valid, NULL, node_list[[t]], NULL, NULL)
     ensemble <- initiate_ensemble("binomial", learners)
 
